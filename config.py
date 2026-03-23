@@ -39,7 +39,7 @@ CS_MIN_MOMENTUM    = 0.0  # only buy pairs with positive 20-period return
 
 # ── ATR-Based Stop / Take-Profit ──────────────────────────────────────────────
 ATR_STOP_MULTIPLIER   = 2.0   # stop_loss  = entry − 2.0 × ATR
-ATR_TARGET_MULTIPLIER = 3.0   # take_profit = entry + 3.0 × ATR  (3:2 R/R ratio)
+ATR_TARGET_MULTIPLIER = 2.0   # take_profit = entry + 2.0 × ATR  (1:1 R/R ratio)
 STOP_LOSS_PCT_FLOOR   = 0.015 # stop always at least 1.5% below entry
 STOP_LOSS_PCT_CAP     = 0.06  # stop never more than 6% below entry
 TAKE_PROFIT_PCT_FLOOR = 0.03  # take-profit always at least 3% above entry
