@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(python -c \":*)",
+      "Bash(python -c \"from signals import SignalEngine; print\\(''OK''\\)\")"
+    ]
+  }
+}

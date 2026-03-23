@@ -1,0 +1,4 @@
+timestamp_utc,portfolio_value,total_return_pct,sortino,sharpe,calmar,max_drawdown_pct,open_positions
+2026-03-23T12:29:24Z,1000000.0,0.0,0.0,0.0,inf,0.0,0
+2026-03-23T12:30:34Z,999394.69,0.0,0.0,0.0,inf,0.0,1
+2026-03-23T12:33:45Z,999976.75,0.0,0.0,0.0,999.0,0.0,4
