@@ -353,7 +353,7 @@ class TradingBot:
         self.audit.log_performance(port_value, metrics)
 
         logger.info(
-            "── Cycle ─ Value=$%,.0f ─ Ret=%+.2f%% ─ "
+            "── Cycle ─ Value=$%.0f ─ Ret=%+.2f%% ─ "
             "Sortino=%.3f ─ Sharpe=%.3f ─ Calmar=%.3f ─ DD=%.2f%%",
             port_value,
             metrics["total_return_pct"],
