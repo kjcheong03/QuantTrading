@@ -274,7 +274,8 @@ class TradingBot:
             return False
 
         prec = self._qty_precision(pair)
-        qty  = round(pos_usd / price, prec)
+        raw_qty = pos_usd / price
+        qty = int(raw_qty) if prec == 0 else round(raw_qty, prec)
         if qty <= 0:
             return False
 
