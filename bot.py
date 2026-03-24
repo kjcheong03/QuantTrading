@@ -40,7 +40,7 @@ class AuditLogger:
 
     TRADE_HEADERS = [
         "timestamp_utc", "pair", "side", "quantity",
-        "entry_price", "exit_price", "pnl_pct", "reason", "api_success",
+        "entry_price", "exit_price", "pnl_pct", "reason", "api_success", "order_id",
     ]
     PERF_HEADERS = [
         "timestamp_utc", "portfolio_value", "total_return_pct",
@@ -71,12 +71,13 @@ class AuditLogger:
         pnl_pct: float,
         reason: str,
         api_success: bool,
+        order_id: str = "",
     ):
         with open(config.TRADE_LOG_FILE, "a", newline="") as f:
             csv.writer(f).writerow([
                 self._ts(), pair, side, quantity,
                 round(entry_price, 6), round(exit_price, 6),
-                round(pnl_pct, 4), reason, api_success,
+                round(pnl_pct, 4), reason, api_success, order_id,
             ])
 
     def log_performance(self, portfolio_value: float, metrics: dict):
@@ -282,7 +283,8 @@ class TradingBot:
         detail  = (resp or {}).get("OrderDetail", {})
         filled  = float(detail.get("FilledAverPrice", 0)) or price
 
-        self.audit.log_trade(pair, "BUY", qty, filled, 0.0, 0.0, "SIGNAL", success)
+        order_id = str(detail.get("OrderId", detail.get("Id", "")))
+        self.audit.log_trade(pair, "BUY", qty, filled, 0.0, 0.0, "SIGNAL", success, order_id)
         self.portfolio.trade_log.append(
             TradeRecord(pair=pair, side="BUY", quantity=qty, price=filled)
         )
@@ -323,7 +325,8 @@ class TradingBot:
         exit_p  = float(detail.get("FilledAverPrice", 0)) or current_price
         pnl_pct = pos.pnl_pct(exit_p)
 
-        self.audit.log_trade(pair, "SELL", qty, pos.entry_price, exit_p, pnl_pct, reason, success)
+        order_id = str(detail.get("OrderId", detail.get("Id", "")))
+        self.audit.log_trade(pair, "SELL", qty, pos.entry_price, exit_p, pnl_pct, reason, success, order_id)
         self.portfolio.trade_log.append(
             TradeRecord(pair=pair, side="SELL", quantity=qty, price=exit_p,
                         pnl_pct=pnl_pct, reason=reason)
