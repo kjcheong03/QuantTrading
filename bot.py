@@ -311,7 +311,11 @@ class TradingBot:
             return False
 
         prec = self._qty_precision(pair)
-        qty  = round(pos.quantity, prec)
+        # Use actual available balance to avoid rounding mismatch errors
+        coin = pair.split("/")[0]
+        balance = self.client.get_balance()
+        available = float((balance or {}).get("SpotWallet", {}).get(coin, {}).get("Free", 0))
+        qty = round(available if available > 0 else pos.quantity, prec)
 
         resp    = self.client.place_order(pair, "SELL", qty, order_type="MARKET")
         success = bool(resp and resp.get("Success"))
